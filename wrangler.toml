@@ -1,0 +1,17 @@
+name = "route-visualization-api"
+main = "worker.js"
+compatibility_date = "2023-12-01"
+
+[vars]
+# These will be replaced with actual values in the Cloudflare dashboard
+MAPBOX_TOKEN = ""
+GEMINI_API_KEY = ""
+
+# Remove the routes section as it's not needed for the Workers dev domain
+# [[routes]]
+# pattern = "api.yourdomain.com/*"
+# zone_name = "yourdomain.com"
+
+# Properly define the site asset configuration
+[site]
+bucket = "./public" 
