@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Route Visualization</title>
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.css' rel='stylesheet' />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    #map {
+      width: 100%;
+      height: 600px;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+    .input-container {
+      margin-bottom: 20px;
+    }
+    #search-input {
+      width: 70%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    #search-button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    #search-button:hover {
+      background-color: #45a049;
+    }
+    .loading {
+      display: none;
+      margin-top: 10px;
+      color: #666;
+    }
+    .info-box {
+      background-color: #f8f9fa;
+      border-left: 4px solid #4CAF50;
+      padding: 10px 15px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>Route Visualization</h1>
+  
+  <div class="info-box">
+    <p>This application now uses a secure backend server to handle API keys safely, protecting them from exposure in client-side code.</p>
+  </div>
+  
+  <div class="input-container">
+    <input type="text" id="search-input" placeholder="Try natural language like 'Show me a route from London through Paris to Berlin avoiding tolls'">
+    <button id="search-button">Search</button>
+    <div class="loading" id="loading-indicator">Processing your request...</div>
+    <p><small>Examples: "Route from New York to Los Angeles", "Walking path from Central Park to Times Square", "Cycling route from San Francisco to Oakland avoiding highways"</small></p>
+  </div>
+  <div id='map'></div>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>
