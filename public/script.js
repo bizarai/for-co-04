@@ -160,9 +160,10 @@ async function processNaturalLanguage(text) {
         2. Only include actual place names, cities, addresses, or landmarks in the locations array.
         3. Preserve the correct order of locations as they appear in the text.
         4. Keep multi-word location names together (e.g., "New York", "Los Angeles", "San Francisco") - do not split them.
-        5. If any preference is not specified, use null for that value.
-        6. Be flexible with input formats and focus on extracting the key information.
-        7. If you're uncertain about a location name, include it anyway.
+        5. For transportMode, extract exactly "walking" for any walking terms, "cycling" for any cycling/biking terms, and "driving" for anything else.
+        6. If any preference is not specified, use null for that value.
+        7. Be flexible with input formats and focus on extracting the key information.
+        8. If you're uncertain about a location name, include it anyway.
         
         Text: "${text}"
       `;
@@ -389,7 +390,27 @@ function getRouteCoordinates(input, preferences = null, isLocationArray = false)
     })
     .catch(error => {
       console.error('Error in route processing:', error);
-      alert(`Error: ${error.message}`);
+      
+      // Provide a more user-friendly error message
+      let errorMessage = error.message;
+      
+      // If the error contains a more detailed message from the server
+      if (error.response && error.response.message) {
+        errorMessage = error.response.message;
+      }
+      
+      // Display a friendly error for common issues
+      if (errorMessage.includes('Failed to get directions') || errorMessage.includes('No routes found')) {
+        if (errorMessage.includes('walking')) {
+          errorMessage = 'Could not find a walking route between these locations. The distance might be too far for walking.';
+        } else if (errorMessage.includes('cycling')) {
+          errorMessage = 'Could not find a cycling route between these locations. This might be due to lack of cycling paths or too great a distance.';
+        } else {
+          errorMessage = 'Could not find a route between these locations. Please try different locations or a different transport mode.';
+        }
+      }
+      
+      alert(`Error: ${errorMessage}`);
       // Hide loading indicator
       document.getElementById('loading-indicator').style.display = 'none';
     });

@@ -13,9 +13,18 @@ export function extractLocationsWithRegex(text) {
   console.log('Normalized text:', normalizedText);
   
   // Extract transport mode and avoidance preferences
-  const transportMode = 
-    normalizedText.match(/\b(walk|walking|on foot)\b/i) ? 'walking' :
-    normalizedText.match(/\b(cycl|bike|biking|bicycle)\b/i) ? 'cycling' : 'driving';
+  let transportMode = 'driving'; // Default to driving
+  
+  // Check for walking terms
+  if (normalizedText.match(/\b(walk|walking|on foot)\b/i)) {
+    transportMode = 'walking';
+  } 
+  // Check for cycling terms
+  else if (normalizedText.match(/\b(cycl|bike|biking|bicycle)\b/i)) {
+    transportMode = 'cycling';
+  }
+  
+  console.log('Detected transport mode:', transportMode);
   
   const avoidTolls = !!normalizedText.match(/\b(no toll|avoid toll|without toll)\b/i);
   const avoidHighways = !!normalizedText.match(/\b(no highway|avoid highway|without highway)\b/i);
