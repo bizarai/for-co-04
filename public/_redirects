@@ -1,0 +1,2 @@
+# Forward API requests to functions
+/api/* /:splat 200 
