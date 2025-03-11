@@ -1,0 +1,22 @@
+name = "route-visualization-api"
+main = "../worker.js"
+compatibility_date = "2023-12-01"
+
+[vars]
+# These will be replaced with actual values in the Cloudflare dashboard
+MAPBOX_TOKEN = ""
+GEMINI_API_KEY = ""
+
+# Enable CORS for your Pages domain
+[[cors.origins]]
+origin = "https://route-visualization.pages.dev"
+allow_credentials = true
+allowed_methods = ["GET", "POST", "OPTIONS"]
+allowed_headers = ["Content-Type"]
+
+# Also allow localhost for development
+[[cors.origins]]
+origin = "http://localhost:8788"
+allow_credentials = true
+allowed_methods = ["GET", "POST", "OPTIONS"]
+allowed_headers = ["Content-Type"] 

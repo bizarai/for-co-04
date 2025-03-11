@@ -1,0 +1,9 @@
+{
+  "name": "route-visualization",
+  "type": "pages", 
+  "build": {
+    "command": null,
+    "root": "public",
+    "output": "public"
+  }
+} 

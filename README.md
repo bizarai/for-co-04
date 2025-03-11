@@ -1,64 +1,65 @@
 # Route Visualization Application
 
-This application allows users to visualize routes between locations using the Mapbox API and Gemini API for natural language processing. The application has been secured to protect API keys from client-side exposure.
-
-## Security Improvements
-
-The application has been refactored to implement the following security best practices:
-
-1. **Server-Side API Key Storage**: All API keys are now stored securely on the server side in environment variables using the `dotenv` package, preventing exposure in client-side code.
-
-2. **Proxy API Endpoints**: Created server-side proxy endpoints that handle all external API requests to Mapbox and Gemini, keeping API keys hidden from clients.
-
-3. **Environment Variables**: Added proper environment variable handling with validation to ensure the application has the necessary credentials to function.
-
-4. **Secure Configuration**: Updated the client-side code to remove all direct API calls with exposed keys.
-
-## Setup and Running
-
-### Prerequisites
-
-- Node.js (v14 or higher)
-- npm (v6 or higher)
-
-### Installation
-
-1. Clone this repository
-2. Install dependencies:
-   ```
-   npm install
-   ```
-3. Create a `.env` file in the root directory with the following variables:
-   ```
-   MAPBOX_TOKEN=your_mapbox_token_here
-   GEMINI_API_KEY=your_gemini_api_key_here
-   PORT=3000  # optional, defaults to 3000
-   ```
-
-### Running the Application
-
-1. Start the server:
-   ```
-   npm start
-   ```
-2. Open your browser and navigate to `http://localhost:3000`
-
-## Development
-
-To run the application in development mode with automatic server restarts:
-```
-npm run dev
-```
+A route visualization application that securely handles API keys using a separate backend API service.
 
 ## Architecture
 
-The application now uses a client-server architecture:
+This application uses a split architecture:
 
-1. **Server (server.js)**: Handles API requests, proxies them to external services, and serves the static frontend.
-2. **Client (script.js, nlp.js)**: Communicates with the server instead of directly with external APIs.
+1. **Frontend**: Static HTML/JS/CSS hosted on Cloudflare Pages
+2. **Backend API**: Cloudflare Worker that handles API requests to Mapbox and Gemini APIs
 
-## Security Considerations
+This approach keeps API keys secure by storing them only on the backend.
 
-- Always keep your `.env` file out of version control (already added to `.gitignore`)
-- Regularly rotate API keys as a security best practice
-- Consider adding rate limiting to the proxy endpoints to prevent abuse 
+## Deployment Instructions
+
+### Deploy the API Worker:
+
+1. Navigate to the API directory:
+   ```bash
+   cd api
+   ```
+
+2. Deploy the Worker:
+   ```bash
+   npx wrangler deploy
+   ```
+
+3. Set environment variables in the Cloudflare dashboard:
+   - Go to Workers & Pages > Your Worker > Settings > Variables
+   - Add `MAPBOX_TOKEN` and `GEMINI_API_KEY` variables
+
+### Deploy the Frontend to Cloudflare Pages:
+
+1. From the repository root:
+   ```bash
+   npx wrangler pages deploy public
+   ```
+
+2. Or configure automatic deployments from GitHub:
+   - Go to Cloudflare Dashboard > Pages
+   - Create a new project and connect your GitHub repository
+   - Configure settings:
+     - Build command: (leave empty)
+     - Build output directory: `public`
+     - Root directory: `/`
+
+## Development
+
+### Run the API Worker locally:
+
+```bash
+cd api
+npx wrangler dev
+```
+
+### Run the frontend locally:
+
+```bash
+npx wrangler pages dev public
+```
+
+## Important URLs
+
+- API Worker: https://route-visualization-api.cartube.workers.dev
+- Frontend: https://route-visualization.pages.dev (after deployment) 
