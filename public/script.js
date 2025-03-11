@@ -1,7 +1,7 @@
 // Define the API URL based on the environment
 const API_URL = window.location.hostname === 'localhost' 
   ? 'http://localhost:8787' 
-  : 'https://route-visualization-api.cartube.workers.dev'; // API Worker URL
+  : 'https://route-visualization-api.cartube.workers.dev'; // Your deployed Worker URL
 
 // Import NLP module
 import { extractLocationsWithRegex } from './nlp.js';
